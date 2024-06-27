@@ -1,12 +1,16 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const GoogleStrategy = require("passport-google-oauth20")
+const passportJWT = require("passport-jwt");
 const bcrypt = require("bcryptjs");
 
 const db = require("../models");
-const {User, Local_User, Google_User} = db;
+const { User, Local_User, Google_User } = db;
 
 require("dotenv").config();
+
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
 
 passport.serializeUser((user, done) => {
   const { userId } = user;
@@ -93,6 +97,24 @@ passport.use(new GoogleStrategy({
       })
   }
 ))
+
+const jwtOptions = {
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET,
+};
+
+passport.use(new JWTStrategy(jwtOptions, async (jwtPayload, cb) => {
+  const userId = jwtPayload.userId;
+  return User.findByPk(userId)
+    .then((user) => {
+      if (!user) return cb(null, false);
+      return cb(null, user);
+    })
+    .catch((error) => {
+      console.error(error);
+      return cb(error);
+    });
+}))
 
 
 module.exports = passport;

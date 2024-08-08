@@ -19,7 +19,7 @@ const corsOptions = {
     "http://localhost:3000",
     "https://voc-memorize-project.onrender.com",
   ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   credentials: true,
 };
 
@@ -49,6 +49,6 @@ app.use(router);
 
 app.use(errorHandler);
 
-app.listen(port, () => {
+app.listen(port,'0.0.0.0', () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

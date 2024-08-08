@@ -1,0 +1,48 @@
+# 環境設定檔案
+.env
+.env.example
+
+# Git 相關檔案
+.git
+.gitignore
+
+# Node 版本管理檔案
+.nvmrc
+
+# 日誌檔案
+logs
+*.log
+
+# 依賴檔案夾
+node_modules/
+
+# 編譯產物
+build/
+dist/
+
+# 快取檔案
+.cache
+.parcel-cache
+.nyc_output
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# 測試檔案
+coverage
+*.lcov
+
+# 開發工具設定檔案
+.vscode
+.vscode-test
+
+# 包管理器快取
+.yarn
+.pnpm-debug.log*
+
+# TypeScript 緩存
+*.tsbuildinfo
+
+# Docker 忽略檔案（避免自我參照）
+.dockerignore

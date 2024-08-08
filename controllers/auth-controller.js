@@ -5,6 +5,11 @@ const User = db.User;
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
+const {
+  verifyRedisDataWithMySQL,
+  syncVocabulariesToRedis,
+} = require("../middlewares/dataHandler");
+
 const authControllers = {
   postLogin: async (req, res, next) => {
     passport.authenticate("local", async (err, user, info) => {
@@ -25,7 +30,10 @@ const authControllers = {
         const vocStorage = await Vocabulary.count({
           where: { userId: id },
         });
-        return res.json({
+
+        // await syncVocabulariesToRedis(user.userId); // ! 等 Redis 更新完畢
+
+        res.json({
           message: info.success_message,
           name,
           vocStorage,
@@ -54,7 +62,10 @@ const authControllers = {
         const vocStorage = await Vocabulary.count({
           where: { userId: id },
         });
-        return res.json({
+
+        // await syncVocabulariesToRedis(user.userId); // ! 等 Redis 更新完畢
+
+        res.json({
           message: info.success_message,
           name,
           vocStorage,
